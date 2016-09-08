@@ -1,131 +1,204 @@
-/* globals jQuery, document */
-(function ($, undefined) {
-    var $document = $(document);
-    $document.ready(function () {
-        var $postContent = $('.post-content');
-        var postTitleLink = $('.post-title a');
-        var container = $('.content');
-        var $album = $('.album');
-        var pswpElement = $('.pswp').get(0);
-        var goToTop = $('.go-to-top');
-        var win = $(window);
-        var windowHeight = win.height();
-        var timeoutHandler;
+$(document).ready(function(){
 
-        /*
-            Fix video size.
-         */
-        $postContent.fitVids();
+    var isMobile = {
+        Android: function() {
+            return navigator.userAgent.match(/Android/i);
+        }
+        ,BlackBerry: function() {
+            return navigator.userAgent.match(/BlackBerry/i);
+        }
+        ,iOS: function() {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        }
+        ,Opera: function() {
+            return navigator.userAgent.match(/Opera Mini/i);
+        }
+        ,Windows: function() {
+            return navigator.userAgent.match(/IEMobile/i);
+        }
+        ,any: function() {
+            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+    };
 
+    $('pre').addClass('prettyprint linenums'); //添加Google code Hight需要的class
 
-        /*
-            Image gallery
-         */
-        $('.post-content img').each(function () {
-            var src = $(this).attr('src');
-            var self = $(this);
-            var newImg = new Image();
-            newImg.addEventListener('load', function () {
-                // save all the image's original size, will use in photoswipe
-                self.data('width', newImg.width).data('height', newImg.height);
-            });
-            newImg.src = src;
-        }).on('click', function () {
-            if ($(this).parents('.album').length) {
-                return;
+    $('.entry a').each(function(index,element){
+        var href = $(this).attr('href');
+        if(href){
+            if(href.indexOf('#') == 0){
+            }else if ( href.indexOf('/') == 0 || href.toLowerCase().indexOf('beiyuu.com')>-1 ){
+            }else if ($(element).has('img').length){
+            }else{
+                $(this).attr('target','_blank');
+                $(this).addClass('external');
             }
-            var options = {
-                index: 0
-            };
-            var items = [{
-                src: $(this).attr('src'),
-                w: $(this).data('width') || $(this).width(),
-                h: $(this).data('height') || $(this).height(),
-            }];
-
-            var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-            gallery.init();
-        });
-
-        $album.each(function () {
-            var items = [];
-            var figureList = $(this).find('figure');
-            var imgList = $(this).find('img');
-
-            if (figureList.length) {
-                figureList.each(function (index, item) {
-                    var img = $(item).find('img');
-                    var src = img.attr('src');
-                    var newImg = new Image();
-                    newImg.addEventListener('load', function () {
-                        var caption = $(item).find('figcaption');
-                        var option = {
-                            src: src,
-                            w: newImg.width,
-                            h: newImg.height,
-                            title: caption.html(),
-                            index: index,
-                        };
-                        items.push(option);
-                    });
-                    newImg.src = src;
-                });
-            } else {
-                imgList.each(function (index, img) {
-                    var newImg = new Image();
-                    var src = $(img).attr('src');
-                    newImg.addEventListener('load', function () {
-                        var option = {
-                            src: src,
-                            w: newImg.width,
-                            h: newImg.height,
-                            index: index,
-                        };
-                        items.push(option);
-                    });
-                    newImg.src = src;
-                });
-            }
-
-            $(this).data('gallery', items);
-        });
-
-        $album.on('click', 'img', function () {
-            var album = $(this).parents('.album');
-            var items = album.data('gallery').sort(function (a, b) { return a.index - b.index; });
-            var index = album.find('img').index($(this));
-
-            var options = {
-                index: index
-            };
-
-            var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-            gallery.init();
-        });
-
-
-        /*
-            Scroll To Top button
-         */
-        win.on('scroll', function () {
-            var top = $(this).scrollTop();
-            if (top > windowHeight / 2 && !goToTop.is(':visible')) {
-                goToTop.fadeIn();
-            }
-            if (top <= windowHeight / 2 && goToTop.is(':visible')) {
-                goToTop.fadeOut();
-            }
-            if (timeoutHandler) {
-                clearTimeout(timeoutHandler);
-            }
-
-            goToTop.removeClass('less-opacity');
-            timeoutHandler = setTimeout(function () {
-                goToTop.addClass('less-opacity');
-            }, 2000);
-        });
-        goToTop.on('click', function () {
-            $('body, html').animate({ scrollTop: 0 });
-        });
+        }
     });
-})(jQuery);
+
+    (function(){
+        var ie6 = ($.browser.msie && $.browser.version=="6.0") ? true : false;
+
+        function initHeading(){
+            var h2 = [];
+            var h3 = [];
+            var h2index = 0;
+
+            $.each($('.entry h2, .entry h3'),function(index,item){
+                if(item.tagName.toLowerCase() == 'h2'){
+                    var h2item = {};
+                    h2item.name = $(item).text();
+                    h2item.id = 'menuIndex'+index;
+                    h2.push(h2item);
+                    h2index++;
+                }else{
+                    var h3item = {};
+                    h3item.name = $(item).text();
+                    h3item.id = 'menuIndex'+index;
+                    if(!h3[h2index-1]){
+                        h3[h2index-1] = [];
+                    }
+                    h3[h2index-1].push(h3item);
+                }
+                item.id = 'menuIndex' + index;
+            });
+
+            return {h2:h2,h3:h3}
+        }
+
+        function genTmpl(){
+            var h1txt = $('h1').text();
+            var tmpl = '<ul><li class="h1"><a href="#">' + h1txt + '</a></li>';
+
+            var heading = initHeading();
+            var h2 = heading.h2;
+            var h3 = heading.h3;
+
+            for(var i=0;i<h2.length;i++){
+                tmpl += '<li><a href="#" data-id="'+h2[i].id+'">'+h2[i].name+'</a></li>';
+
+                if(h3[i]){
+                    for(var j=0;j<h3[i].length;j++){
+                        tmpl += '<li class="h3"><a href="#" data-id="'+h3[i][j].id+'">'+h3[i][j].name+'</a></li>';
+                    }
+                }
+            }
+            tmpl += '</ul>';
+
+            return tmpl;
+        }
+
+        function genIndex(){
+            var tmpl = genTmpl();
+            var indexCon = '<div id="menuIndex" class="sidenav"></div>';
+
+            $('#content').append(indexCon);
+
+            $('#menuIndex')
+                .append($(tmpl))
+                .delegate('a','click',function(e){
+                    e.preventDefault();
+
+                    var selector = $(this).attr('data-id') ? '#'+$(this).attr('data-id') : 'h1'
+                    var scrollNum = $(selector).offset().top;
+
+                    $('body, html').animate({ scrollTop: scrollNum-30 }, 400, 'swing');
+                });
+        }
+
+        var waitForFinalEvent = (function () {
+            var timers = {};
+            return function (callback, ms, uniqueId) {
+                if (!uniqueId) {
+                    uniqueId = "Don't call this twice without a uniqueId";
+                }
+                if (timers[uniqueId]) {
+                    clearTimeout (timers[uniqueId]);
+                }
+                timers[uniqueId] = setTimeout(callback, ms);
+            };
+        })();
+
+        if($('.entry h2').length > 2 && !isMobile.any() && !ie6){
+
+            genIndex();
+
+            $(window).load(function(){
+                var scrollTop = [];
+                $.each($('#menuIndex li a'),function(index,item){
+                    var selector = $(item).attr('data-id') ? '#'+$(item).attr('data-id') : 'h1'
+                    var top = $(selector).offset().top;
+                    scrollTop.push(top);
+                });
+
+                var menuIndexTop = $('#menuIndex').offset().top;
+                var menuIndexLeft = $('#menuIndex').offset().left;
+
+                $(window).scroll(function(){
+                    waitForFinalEvent(function(){
+                        var nowTop = $(window).scrollTop();
+                        var length = scrollTop.length;
+                        var index;
+
+                        if(nowTop+20 > menuIndexTop){
+                            $('#menuIndex').css({
+                                position:'fixed'
+                                ,top:'20px'
+                                ,left:menuIndexLeft
+                            });
+                        }else{
+                            $('#menuIndex').css({
+                                position:'static'
+                                ,top:0
+                                ,left:0
+                            });
+                        }
+
+                        if(nowTop+60 > scrollTop[length-1]){
+                            index = length;
+                        }else{
+                            for(var i=0;i<length;i++){
+                                if(nowTop+60 <= scrollTop[i]){
+                                    index = i;
+                                    break;
+                                }
+                            }
+                        }
+                        $('#menuIndex li').removeClass('on');
+                        $('#menuIndex li').eq(index-1).addClass('on');
+                    });
+                });
+
+                $(window).resize(function(){
+                    $('#menuIndex').css({
+                        position:'static'
+                        ,top:0
+                        ,left:0
+                    });
+
+                    menuIndexTop = $('#menuIndex').offset().top;
+                    menuIndexLeft = $('#menuIndex').offset().left;
+
+                    $(window).trigger('scroll')
+                    $('#menuIndex').css('max-height',$(window).height()-80);
+                });
+            })
+
+            //用js计算屏幕的高度
+            $('#menuIndex').css('max-height',$(window).height()-80);
+        }
+    })();
+
+    $.getScript('/js/prettify/prettify.js',function(){
+        prettyPrint();
+    });
+
+    if(/\#comment/.test(location.hash)){
+        $('#disqus_container .comment').trigger('click');
+    }
+
+    if(/css3-animation/.test(location.href)){
+        $("head").append("<link rel='stylesheet' type='text/css' href='/css/css3-ani.css'/>");
+        $.getScript('/js/css3-ani.js',function(){});
+    }
+});
