@@ -1,36 +1,17 @@
 <!DOCTYPE html>
-<html>
-
-  {% include head.html %}
-
-  <body class="{{ page.body_class }}">
-
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.name }}{% endif %}</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,600">
+  <link rel="stylesheet" href="{{ site.baseurl }}/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for {{ site.name }}" href="{{ site.baseurl }}/feed.xml" />
+  {% seo %}
+</head>
+<body>
+  <div class="container">
     {{ content }}
-
-    {{ if site.logo}}
-    <a href="{{ site.baseurl | prepend: site.url }}" id="blog_badge">
-            <span style="background-image:
-            url('{{ site.baseurl }}/assets/images/{{ site.logo }}');">{{ site.name }}</span>
-        </a>
-    {{/if}}
-
-    <script>
-      function no_schema_links () {
-        var links = document.querySelectorAll('.js-remove-domain-schema');
-        if (links) {
-          for (i = 0; i < links.length; ++i) {
-            var link = links[i],
-              text = link.innerHTML,
-            no_schema = text.replace(/.*?:\/\//g, "");
-            link.innerHTML = no_schema;
-          }
-        }
-      }
-
-      window.onload = function () {
-        no_schema_links();
-      }
-    </script>
-  </body>
-
+  </div>
+</body>
 </html>

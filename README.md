@@ -1,33 +1,25 @@
-# Joon: Roon theme for Jekyll
+# Kiko
 
-Jekyll theme based on the Roon for [Ghost](http://github.com/tryghost/roon/).
+[Kiko](http://github.com/gfjaru/Kiko) is a theme for [Jekyll](http://jekyllrb.com), the static site generator. It's designed and developed by [@gfjaru](https://twitter.com/gfjaru).
 
-## Demo
-View this jekyll theme in action [here](https://vormwald.github.io/joon)
+[See it live](https://kiko.gfjaru.com/)
 
-## Screenshot
-![screenshot](https://raw.githubusercontent.com/vormwald/joon/master/screenshot.png)
+## To do lists
 
-## Font Options
+Next update is new theme based from Kiko.
 
-This theme comes with two font options; a serif and sans-serif (the default). 
-Switching between them is done in the HTML, by adding `serif` to the `class` of 
-the `<body>` element in [head.html](https://github.com/vormwald/joon/blob/master/_layouts/default.html.hbs#L6).
+## Get Started
 
-## Colour Options
+1. Fork this repository
+2. Clone the repository to your computer.<br />`git clone https://github.com/YOURUSERNAME/Kiko`  
+3. Run it.<br />`jekyll serve`
+4. Go to http://127.0.0.1:4000.
 
-This theme uses an accent colour for links and the border at the top of pages.
+## Make it yours
 
-To change this colour, you need to edit [assets/css/screen.css](https://github.com/vormwald/joon/blob/master/assets/css/screen.css).
+1. Change name and add/remove nav at `_config.yml`.
+2. Change `about.md`.
 
-There are only two values you need to change, conveniently **located at the very
-top of the file**.
+## License
 
-## For More Information
-For more on Jekyll, read the [documentation](http://jekyllrb.com/)
-
-
-## Copyright & License
-
-Roon is Copyright (c) 2013-2015 Sam Soffes & Ghost Foundation - Released under 
-the [MIT license](LICENSE).
+This theme is released under MIT License.

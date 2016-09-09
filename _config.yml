@@ -1,23 +1,53 @@
-# Site settings
-title: "Joon: Roon for Jekyll"
-logo: logo.png # image from https://www.flickr.com/photos/lwr/5496279831/in/set-72157594159055823
-email: your-email@domain.com
-description: > # this means to ignore newlines until "url:"
-  Roon was an excellent service, with a beautiful understated design. After
-  being acquired by <a href='https://ghost.org'>Ghost</a>, the Roon theme was
-  open sourced.<br> This is my Jekyll port of the Roon theme.
-url: "http://vormwald.github.io" # the base hostname & protocol for your site
-baseurl: "/joon" # the subpath of your site, e.g. /blog/
-twitter_username: jekyllrb
-github_username:  jekyll
+# # # # # # # #
+#   K i k o   #
+# # # # # # # #
 
-permalink: pretty
-paginate: 5
+# Basic
+name:               "Kiko"
+description:        "a clean, lightweight and minimalistic blog theme for jekyll"
 
-# Build settings
-markdown: kramdown
-highlighter: rouge
+# jekyll-seo-tag, see: http://www.rubydoc.info/gems/jekyll-seo-tag/1.2.0
+url:                "//kiko.gfjaru.com"
+author:             "gfjaru"
+twitter:
+  username:         "gfjaru"
+#facebook:
+#  app_id:           1234
+#    publisher:      1234
+
+# URL
+baseurl:            ""
+#baseurl:            "" #For Root Domain
+permalink:          /:year/:month/:day/:title/
+
+# Markdown
+markdown:           kramdown
+
+# Navigation
+nav:
+  - name:           "About"
+    href:           "//kiko.gfjaru.com/about"
+  - name:           "Download"
+    href:           "//github.com/gfjaru/Kiko/releases"
+
+# Sass
+sass:
+  style:            :compressed
+
+# Scopes
+defaults:
+  -
+    scope:
+      path:         ""
+      type:         "pages"
+    values:
+      layout:       "page"
+  -
+    scope:
+      path:         ""
+      type:         "posts"
+    values:
+      layout:       "post"
 
 gems:
-  - jekyll-sitemap
-  - jekyll-paginate
+  - jekyll-seo-tag

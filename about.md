@@ -1,15 +1,8 @@
 ---
-layout: page
 title: About
 permalink: /about/
 ---
 
-This is my attempt at porting the Roon theme over to Jekyll. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+<p class="lead"><a href="http://github.com/gfjaru/Kiko">Kiko</a> is a theme for <a href="http://jekyllrb.com">Jekyll</a>, the static site generator.</p>
 
-You can find the official Roon theme (for Ghost) at: [github.com/TryGhost/Roon/](https://github.com/TryGhost/Roon/)
-
-You can find the source code my Jekyll version of Roon: [github.com/vormwald/joon](https://github.com/vormwald/joon)
-
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
-
-Enjoy!
+Kiko is simple, lightweight theme. It's designed and developed by [@gfjaru](https://twitter.com/gfjaru).
